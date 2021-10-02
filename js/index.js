@@ -1,3 +1,5 @@
+// let search = document.querySelector('#search')
+
 document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('github-form').addEventListener('submit', (e) => {
         e.preventDefault()
@@ -5,15 +7,28 @@ document.getElementById('github-form').addEventListener('submit', (e) => {
         fetch(`https://api.github.com/search/users?q=${search.value}`, {
             headers: {
                 'Content-Type': "application/json",
-                accept: 'application/vnd.github.v3+json'
+                Accept: 'application/vnd.github.v3+json'
             }
         })
         .then(res => res.json())
-        .then(name => {
-            console.log(name.items)
-            search.value
-            let appendValues = name.items[0].login
-            document.querySelector('#github-container').append(appendValues)
+        .then(object => {
+            object.items.forEach(name => appendGitHubProfile(name))
         }
     )})
 })
+
+function appendGitHubProfile(name) {
+    console.log(name)
+    console.log("Test")
+   let githubContainer = document.querySelector('#github-container')
+
+let githubUser = `
+<div>
+    <h1>${name.login}</h1>
+    <img src = ${name.avatar_url}</img> 
+    <a href=${name.html_url}>Github Profile</a>
+    <p> ${name.score} </p>
+</div>`
+
+   githubContainer.innerHTML += githubUser
+}
