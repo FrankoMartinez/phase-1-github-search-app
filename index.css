@@ -5,7 +5,7 @@
 }
 
 #github-container {
-  display: grid;
+  display: flex;
 }
 
 ul {
